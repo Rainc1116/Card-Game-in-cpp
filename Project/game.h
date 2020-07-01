@@ -3,60 +3,61 @@
 #include "card.h"
 #include<set>
 
-enum status_doudizhuANDgandengyan //Ğ¡ÓÚ5¾ÍÊÇ¶·µØÖ÷£¬´óÓÚµÈÓÚ5¾ÍÊÇ¸ÉµÉÑÛ
-{ //¶·µØÖ÷µÄÓÎÏ·½ø³Ì
-	SendCardPeriod_doudizhu; //·¢ÅÆ 0
-    AskDiZhuPeriod_doudizhu; //½ĞµØÖ÷ 1
-    SendDiZhuCardPeriod_doudizhu; //·¢µØÖ÷ÅÆ 2
-    DiscardPeriod_doudizhu; //³öÅÆ 3
-    EndingPeriod_doudizhu //½áÊø 4
-//¸ÉµÉÑÛµÄÓÎÏ·½ø³Ì
-    SendCardPeriod_gandengyan; //·¢ÅÆ 5
-    DiscardPeriod_gandengyan; //³öÅÆ&³éÅÆ 6
-    EndingPeriod_gandengyan; //½áÊø 7
+enum status_doudizhuANDgandengyan //å°äº5å°±æ˜¯æ–—åœ°ä¸»ï¼Œå¤§äºç­‰äº5å°±æ˜¯å¹²çªçœ¼
+{ //æ–—åœ°ä¸»çš„æ¸¸æˆè¿›ç¨‹
+	SendCardPeriod_doudizhu; //å‘ç‰Œ 0
+    AskDiZhuPeriod_doudizhu; //å«åœ°ä¸» 1
+    SendDiZhuCardPeriod_doudizhu; //å‘åœ°ä¸»ç‰Œ 2
+    DiscardPeriod_doudizhu; //å‡ºç‰Œ 3
+    EndingPeriod_doudizhu //ç»“æŸ 4
+//å¹²çªçœ¼çš„æ¸¸æˆè¿›ç¨‹
+    SendCardPeriod_gandengyan; //å‘ç‰Œ 5
+    DiscardPeriod_gandengyan; //å‡ºç‰Œ&æŠ½ç‰Œ 6
+    EndingPeriod_gandengyan; //ç»“æŸ 7
 };
 
 class Game {
     friend class Player;
     friend class Scene;
 public: 
-    Game(HWND hwnd, int gamemode£¬int robotnum);//gamemodÎª1ÊÇ¶·µØÖ÷£¬2ÊÇ¸ÉµÉÑÛ
+    Game(HWND hwnd, int gamemodeï¼Œint robotnum);//gamemodä¸º1æ˜¯æ–—åœ°ä¸»ï¼Œ2æ˜¯å¹²çªçœ¼
     ~Game();
     status_doudizhuANDgandengyan Get_status() { return status; }
-    void Gamestart(); //¿ªÊ¼½×¶Î
-    void Initialization(); //³õÊ¼»¯
-    void RegisterScene(Scene* scene) { this->scene = scene; }//×¢²á»·¾³
+    void Gamestart(); //å¼€å§‹é˜¶æ®µ
+    void Initialization(); //åˆå§‹åŒ–
+    void RegisterScene(Scene* scene) { this->scene = scene; }//æ³¨å†Œç¯å¢ƒ
 
-    void Getscore(); //´ÓÎÄ¼şÖĞ»ñÈ¡ËÄÃûÍæ¼Ò·ÖÊı
-    void Putscore(); //½«¸üĞÂµÄ·ÖÊı·Å»ØÈ¥
+    void Getscore(); //ä»æ–‡ä»¶ä¸­è·å–å››åç©å®¶åˆ†æ•°
+    void Putscore(); //å°†æ›´æ–°çš„åˆ†æ•°æ”¾å›å»
 
-    void SendCard(); //¸øÃ¿Ò»¸öÈË·¢ÕÅÅÆ£¬Èç¹ûÅÆ»¹×ã¹»µÄ»°
-    void SendCard_doudizhu(); //¶·µØÖ÷µÄ·¢ÅÆ
-    void SendCard_gandengyan(); //¸ÉµÉÑÛµÄ·¢ÅÆ
+    void SendCard(); //ç»™æ¯ä¸€ä¸ªäººå‘å¼ ç‰Œï¼Œå¦‚æœç‰Œè¿˜è¶³å¤Ÿçš„è¯
+    void SendCard_doudizhu(); //æ–—åœ°ä¸»çš„å‘ç‰Œ
+    void SendCard_gandengyan(); //å¹²çªçœ¼çš„å‘ç‰Œ
 
-    void discard(); //³öÅÆ ÎÒ¾õµÃÁ½¸öÓÎÏ·³öÅÆ½×¶Î¾ÍÅĞ¶Ï²»Í¬ºÍÊÇ·ñÒªÃşÅÆµÄÇø±ğ¾Í²»·Ö¿ªÁË
-    void pass();//²»³öÅÆ
-    void givinghint();//¸øÈõÖÇÌáÊ¾
+    void discard(); //å‡ºç‰Œ æˆ‘è§‰å¾—ä¸¤ä¸ªæ¸¸æˆå‡ºç‰Œé˜¶æ®µå°±åˆ¤æ–­ä¸åŒå’Œæ˜¯å¦è¦æ‘¸ç‰Œçš„åŒºåˆ«å°±ä¸åˆ†å¼€äº†
+    void pass();//ä¸å‡ºç‰Œ
+    void givinghint();//ç»™å¼±æ™ºæç¤º
 
-    void Gameover(); //ÓÎÏ·½áÊø
+    void Gameover(); //æ¸¸æˆç»“æŸ
 
-    void SendDiZhuCard(); //·¢µØÖ÷ÅÆ
-    void AskforDiZhu(); //½ĞµØÖ÷
-    void GetideasofDizhu(bool idea); //ÊÇ·ñ½ĞµØÖ÷
+    void SendDiZhuCard(); //å‘åœ°ä¸»ç‰Œ
+    void AskforDiZhu(); //å«åœ°ä¸»
+    void GetideasofDizhu(bool idea); //æ˜¯å¦å«åœ°ä¸»
 
-    int GetnextPlayernum(); //»ñÈ¡ÉÏÒ»¸ö³öÅÆµÄÈËµÄ±àºÅ
-    int GetperviousPlayernum(); //»ñÈ¡ÏÂÒ»¸ö³öÅÆµÄÈËµÄ±àºÅ
+    int GetnextPlayernum(); //è·å–ä¸Šä¸€ä¸ªå‡ºç‰Œçš„äººçš„ç¼–å·
+    int GetcurrentPlayernum(); //è·å–ä¸‹ä¸€ä¸ªå‡ºç‰Œçš„äººçš„ç¼–å·
 
 private:
     status_doudizhuANDgandengyan status;
-    Player player[4]; //ËÄÃûÍæ¼Ò
-    int times=1; //±¾¾ÖµÄ±¶ÂÊ
-    Player* currentplayer,* DiZhu, *lastplayer;//µØÖ÷Ö¸Õë,µ±Ç°³öÅÆÍæ¼ÒÖ¸Õë£¬µ½Ä³¸öÍæ¼ÒËã¸ÃÂÖÎŞÈËÑ¹ËÀµÄÖ¸Õë
-    int DiZhuCard[8]; //8ÕÅµØÖ÷ÅÆ
-    Cards Paidui; //¶·µØÖ÷ÊÇÁ½¸±ÅÆ£¬¸ÉµÉÑÛÊÇÒ»¸±ÅÆ
+    Player player[4]; //å››åç©å®¶
+    int times=1; //æœ¬å±€çš„å€ç‡
+    Player* currentplayer,* DiZhu, *lastplayer;//åœ°ä¸»æŒ‡é’ˆ,å½“å‰å‡ºç‰Œç©å®¶æŒ‡é’ˆï¼Œåˆ°æŸä¸ªç©å®¶ç®—è¯¥è½®æ— äººå‹æ­»çš„æŒ‡é’ˆ
+    int DiZhuCard[8]; //8å¼ åœ°ä¸»ç‰Œ
+    Cards Paidui; //æ–—åœ°ä¸»æ˜¯ä¸¤å‰¯ç‰Œï¼Œå¹²çªçœ¼æ˜¯ä¸€å‰¯ç‰Œ
     HWND hMainWnd;
     Scene* scene;
-    int callscore[4] = { -1£¬ - 1£¬ - 1£¬ - 1 }; //ÊÇ·ñ½ĞµØÖ÷ 0Îª½ĞµØÖ÷£¬1Îª²»½Ğ£¬-1Îª»¹Ã»ÓĞ½Ğ
-    int calltimes=0; //ÓĞ¼¸¸öÈË½øĞĞÁË½ĞµØÖ÷µÄ²Ù×÷
-    int callbegin; //´Ó¼¸ºÅÍæ¼Ò¿ªÊ¼½ĞµØÖ÷
+    int callscore[4] = { -1ï¼Œ - 1ï¼Œ - 1ï¼Œ - 1 }; //æ˜¯å¦å«åœ°ä¸» 0ä¸ºå«åœ°ä¸»ï¼Œ1ä¸ºä¸å«ï¼Œ-1ä¸ºè¿˜æ²¡æœ‰å«
+    int calltimes=0; //æœ‰å‡ ä¸ªäººè¿›è¡Œäº†å«åœ°ä¸»çš„æ“ä½œ
+    int robotnumber;//æœ‰å‡ ä¸ªæœºå™¨äºº
+    int score[4];//å››ä¸ªäººçš„åˆ†æ•°
 };
