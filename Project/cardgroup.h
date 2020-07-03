@@ -1,61 +1,49 @@
 #pragma once
 
-
-
-//Ò»×éÅÆµÄ¿ÉÄÜÀàĞÍ
-//enum Type{
-//	Unkown,//Î´Öª
-//	Single,//µ¥ÕÅ
-//	Double,//¶Ô×Ó
-//	Three,//ÈıÌõ
-//	SingleSeq,//µ¥Ë³
-//	DoubleSeq,//Ë«Ë³
-//	ThreeSeq,//ÈıË³
-//	ThreePlus,//Èı´øÒ»£¨Ò»ÕÅ»òÒ»¶Ô£©
-//	Airplane,//·É»ú
-//	FourSeq,//ËÄ´ø¶ş£¨Á½ÕÅ»òÁ½¶Ô£©
-//	Bomb,//Õ¨µ¯¡¢ÍõÕ¨
-//};
-
-enum Type {
-	Unkown,//Î´Öª
-	Single,//µ¥ÕÅ
-	Double,//¶Ô×Ó
-	DoubleSeq,//Ë«Ë³
-	Triple,//ÈıÕÅ
-	TriplePlus,//Èı´øÒ»¶Ô
-
-	TripleSeq,//ÈıË³
-	TripleSeqPlus,//·É»ú£¨ÈıË³+´ø¶Ô£©
-
-	FourPlus,//ËÄ´ø¶ş£¨Á½¶Ô£©
-	FourSeqPlus,//ËÄĞòÁĞ+´ø¶Ô
-
-	Bomb,//Õ¨µ¯¡¢ÍõÕ¨
+//ä¸€ç»„ç‰Œçš„å¯èƒ½ç±»å‹
+enum Type{
+	Empty = 0,//ç©º
+	Unkown,//æœªçŸ¥
+	Single,//å•å¼ 
+	Double,//å¯¹å­
+	Three,//ä¸‰æ¡
+	SingleSeq,//å•é¡ºï¼Œäº”å¼ æˆ–äº”å¼ ä»¥ä¸Šç‰Œç‚¹è¿ç»­çš„ç‰Œï¼ŒèŠ±è‰²ä¸é™(ä¸åŒ…æ‹¬2)
+	DoubleSeq,//åŒé¡ºï¼Œä¸‰å¯¹æˆ–æ›´å¤šçš„è¿ç»­å¯¹ç‰Œ(å¦‚ï¼š334455ã€88991010JJ)
+	ThreeSeq,//ä¸‰é¡ºï¼ŒäºŒä¸ªæˆ–æ›´å¤šçš„è¿ç»­ä¸‰å¼ ç‰Œ(å¦‚ï¼š333444ã€444555666777)
+	ThreePlus,//ä¸‰å¸¦ä¸€ï¼ˆä¸€å¯¹ï¼‰
+	Airplane,//é£æœºï¼Œä¸‰é¡º+åŒæ•°é‡çš„ä¸€å¯¹ç‰Œã€‚ä¾‹å¦‚ï¼š333444+6677
+	//FourSeq,//å››å¸¦äºŒï¼ˆä¸¤å¼ æˆ–ä¸¤å¯¹ï¼‰
+	BombFour,//4ä¸ªä¸€æ ·çš„ï¼Œå¦‚å››ä¸ª8ï¼Œå¨åŠ›å°äºç‚®ï¼Œè¢«ç§°ä¸ºæª
+	BombFive,//5ä¸ªä¸€æ ·çš„ï¼Œå¦‚äº”ä¸ª9ï¼Œå¨åŠ›å°äºç«ç®­ï¼Œè¢«ç§°ä¸ºç‚®
+	BombSix,//6ä¸ªä¸€æ ·çš„ï¼Œå¦‚å…­ä¸ª10ï¼Œå¨åŠ›å°äºå¯¼å¼¹ï¼Œè¢«ç§°ä¸ºç«ç®­(æ°‘é—´ç§°å…­å–œ)
+	BombSeven,//7ä¸ªä¸€æ ·çš„ï¼Œå¦‚ä¸ƒä¸ªJï¼Œå¨åŠ›å°äºå¤©ç‚¸ï¼Œè¢«ç§°ä¸ºå¯¼å¼¹(æ°‘é—´ç§°ä¸ƒå·§)
+	BombEight,//8ä¸ªä¸€æ ·çš„ï¼Œå¦‚å…«ä¸ªQï¼Œå¨åŠ›ç´§æ¬¡äºå¤©å°Šï¼Œè¢«ç§°ä¸ºå¤©ç‚¸
+	BombKing,//å››ä¸ªç‹ï¼Œç§°ä¸ºå¤©å°Šï¼Œä»€ä¹ˆç‰Œéƒ½å¯ä»¥æ‰“ï¼Œæ˜¯æœ€å¤§çš„ç‰Œ
 };
 
-//ÅÆĞÍ½á¹¹
+//ç‰Œå‹ç»“æ„
 class CardGroup{
 	friend class Player;
 	friend class Game;
 	friend class Scene;
 public:
 	CardGroup();
-
-	CardGroup(Type t, int v);
-
+	CardGroup(enum Type t, int v);
+	CardGroup(enum Type t);
 	CardGroup& operator=(CardGroup &cg);
-
-	void AddNumber(int num);//Ìí¼Ó0-53±íÊ¾µÄÅÆÔªËØ
-	void DeleteNumber(int num);//È¥µôÒ»ÕÅÅÆ
-	void Clear(void);//ÖØÖÃ´Ë½á¹¹
-	//°Ñ0-107×ª»»³É3-17È¨Öµ£¬ÆäÖĞA£¨14£©¡¢2£¨15£©¡¢Ğ¡Íõ£¨16£©¡¢´óÍõ£¨17£©
-	static int Translate(int num);
+	void AddNumber(int num);//æ·»åŠ 0-107è¡¨ç¤ºçš„ç‰Œå…ƒç´ 
+	void DeleteNumber(int num);//å»æ‰ä¸€å¼ ç‰Œ
+	void Clear(void);//é‡ç½®æ­¤ç»“æ„
+	//æŠŠ0-107è½¬æ¢æˆ3-17æƒå€¼ï¼Œå…¶ä¸­Aï¼ˆ14ï¼‰ã€2ï¼ˆ15ï¼‰ã€å°ç‹ï¼ˆ16ï¼‰ã€å¤§ç‹ï¼ˆ17ï¼‰
+	int Translate(int num);
+	void Analyse();
+	
 private:
-	std::map<int, int> group;//3-17È¨Öµ¼¯ºÏ
-	std::set<int> cards;//0-53×é³ÉµÄ¼¯ºÏ£¬Ö÷ÒªÓÃÓÚ·½±ã»­ÃæÏÔÊ¾
-
-	Type type;//ÅÆĞÍÀàĞÍ£¨µ¥ÅÆ¡¢¶Ô×ÓµÈµÈ£©
-	int value;//È¨Öµ
-	int count;//´Ë½á¹¹ÔªËØÊıÁ¿£¨ÅÆÊıÁ¿£©
+	std::map<int, int> group;//3-17æƒå€¼é›†åˆ
+	std::set<int> cards;//0-53ç»„æˆçš„é›†åˆï¼Œä¸»è¦ç”¨äºæ–¹ä¾¿ç”»é¢æ˜¾ç¤º
+	enum Type type;//ç‰Œå‹ç±»å‹ï¼ˆå•ç‰Œã€å¯¹å­ç­‰ç­‰ï¼‰
+	int value;//æƒå€¼
+	int count;//æ­¤ç»“æ„å…ƒç´ æ•°é‡ï¼ˆç‰Œæ•°é‡ï¼‰
+	int typevalue;//ç‰Œå‹æƒå€¼
+	int typecount;//ç‰Œå‹æ•°ç›®
 };
