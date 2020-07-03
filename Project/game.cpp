@@ -177,9 +177,18 @@ void discard()
 			scene->HideDiscardBtn();
 			lastplayer = currentplayer;
 			//倍率增加环节
-
-
-
+			if (curplayer->discard.type == BombFour)//炸弹4
+				times*=2;
+			else if (curplayer->discard.type == BombFive)//炸弹5
+				times *= 6;
+			else if (curplayer->discard.type == BombSix)//炸弹6
+				times *= 24;
+			else if (curplayer->discard.type == BombSeven)//炸弹7
+				times *= 120;
+			else if (curplayer->discard.type == BombEight)//炸弹8
+				times *= 720;
+			else if (curplayer->discard.type == BombFour)//炸弹king
+				times *= 100;
 		}
 		else {//否则继续等待玩家选牌
 			scene->ShowScene(hMainWnd);
@@ -192,9 +201,18 @@ void discard()
 		if (currentplayer->AIPass())
 			lastplayer = currentplayer;
 		//倍率增加环节
-
-
-
+		if (curplayer->discard.type == BombFour)//炸弹4
+			times *= 2;
+		else if (curplayer->discard.type == BombFive)//炸弹5
+			times *= 6;
+		else if (curplayer->discard.type == BombSix)//炸弹6
+			times *= 24;
+		else if (curplayer->discard.type == BombSeven)//炸弹7
+			times *= 120;
+		else if (curplayer->discard.type == BombEight)//炸弹8
+			times *= 720;
+		else if (curplayer->discard.type == BombFour)//炸弹king
+			times *= 100;
 	}
 	scene->ShowScene(hMainWnd);
 
@@ -232,7 +250,7 @@ void Gameover()
 {
 	if (status = 4)
 	{
-		int flag = -1;
+		int flag = -1; //判断是不是地主获胜
 		if (DiZhu == currentplayer)
 		{
 			flag = 1;
