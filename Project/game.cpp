@@ -15,7 +15,7 @@
 
 using namespace std;
 
-Game::Game(HWND hwnd, int gamemode£¬int robotnum)
+Game::Game(HWND hwnd, int gamemodeï¼Œint robotnum)
 {
 	times = 0;
 	basispoint = 0;
@@ -54,7 +54,7 @@ Game::~Game()
 void Game::Gamestart()
 {
 	Initialization();
-	if (status<5) //ÅĞ¶Ïµ½µ×ÊÇÄÄÒ»¸öÓÎÏ·
+	if (status<5) //åˆ¤æ–­åˆ°åº•æ˜¯å“ªä¸€ä¸ªæ¸¸æˆ
 	{
 		SendCard_doudizhu();
 	}
@@ -78,14 +78,14 @@ void Game::Initialization()
 	times = 1;
 	if (status<5)
 	{
-		status = 0; //¶·µØÖ÷¿ªÊ¼
+		status = 0; //æ–—åœ°ä¸»å¼€å§‹
 	}
 	else
 	{
-		status = 5; //¸ÉµÉÑÛ¿ªÊ¼
+		status = 5; //å¹²çªçœ¼å¼€å§‹
 	}
 	
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		player[i]->NewGame();
 	}
 	cardheap.RandCards();
@@ -165,66 +165,66 @@ void Game::discard()
 {
 	currentplayer->discard.Clear();
 	currentplayer->nodiscard = false;
-	if (lastplayer == currentplayer && status >= 5) //¸ÉµÉÑÛÖĞÎŞÈËÑ¹ËÀÔò¸÷ÃşÒ»ÕÅÅÆ
+	if (lastplayer == currentplayer && status >= 5) //å¹²çªçœ¼ä¸­æ— äººå‹æ­»åˆ™å„æ‘¸ä¸€å¼ ç‰Œ
 	{
 		sendcard();
 	}
-	if (GetcurrentPlayernum() < (4 - robotnumber)) {//µ±Ç°Íæ¼ÒÎªÈË
-		if (currentplayer->selection.count && currentplayer->IsRight()) {//Íæ¼ÒÒÑÑ¡ÅÆ²¢ÇÒ·ûºÏ¹æ¶¨
+	if (GetcurrentPlayernum() < (4 - robotnumber)) {//å½“å‰ç©å®¶ä¸ºäºº
+		if (currentplayer->selection.count && currentplayer->IsRight()) {//ç©å®¶å·²é€‰ç‰Œå¹¶ä¸”ç¬¦åˆè§„å®š
 			scene->HideDiscardBtn();
 			lastplayer = currentplayer;
-			//±¶ÂÊÔö¼Ó»·½Ú
+			//å€ç‡å¢åŠ ç¯èŠ‚
 			{
-				if (curplayer->discard.type == BombFour)//Õ¨µ¯4
+				if (curplayer->discard.type == BombFour)//ç‚¸å¼¹4
 					times *= 2;
-				else if (curplayer->discard.type == BombFive)//Õ¨µ¯5
+				else if (curplayer->discard.type == BombFive)//ç‚¸å¼¹5
 					times *= 6;
-				else if (curplayer->discard.type == BombSix)//Õ¨µ¯6
+				else if (curplayer->discard.type == BombSix)//ç‚¸å¼¹6
 					times *= 24;
-				else if (curplayer->discard.type == BombSeven)//Õ¨µ¯7
+				else if (curplayer->discard.type == BombSeven)//ç‚¸å¼¹7
 					times *= 120;
-				else if (curplayer->discard.type == BombEight)//Õ¨µ¯8
+				else if (curplayer->discard.type == BombEight)//ç‚¸å¼¹8
 					times *= 720;
-				else if (curplayer->discard.type == BombFour)//Õ¨µ¯king
+				else if (curplayer->discard.type == BombFour)//ç‚¸å¼¹king
 					times *= 100;
 			}
 		}
-		else {//·ñÔò¼ÌĞøµÈ´ıÍæ¼ÒÑ¡ÅÆ
+		else {//å¦åˆ™ç»§ç»­ç­‰å¾…ç©å®¶é€‰ç‰Œ
 			scene->ShowScene(hMainWnd);
 			scene->ShowDiscardBtn();
 			return;
 		}
 	}
-	else {//µ±Ç°³öÅÆ·½ÎªµçÄÔ
+	else {//å½“å‰å‡ºç‰Œæ–¹ä¸ºç”µè„‘
 		if (!currentplayer->AIPass())
 			lastplayer = currentplayer;
-		currentplayer->AISelect(); /////////²»ÖªµÀ²ÎÊıÊÇÊ²Ã´
-		//±¶ÂÊÔö¼Ó»·½Ú
+		currentplayer->AISelect(); /////////ä¸çŸ¥é“å‚æ•°æ˜¯ä»€ä¹ˆ
+		//å€ç‡å¢åŠ ç¯èŠ‚
 		{
-			if (curplayer->discard.type == BombFour)//Õ¨µ¯4
+			if (curplayer->discard.type == BombFour)//ç‚¸å¼¹4
 				times *= 2;
-			else if (curplayer->discard.type == BombFive)//Õ¨µ¯5
+			else if (curplayer->discard.type == BombFive)//ç‚¸å¼¹5
 				times *= 6;
-			else if (curplayer->discard.type == BombSix)//Õ¨µ¯6
+			else if (curplayer->discard.type == BombSix)//ç‚¸å¼¹6
 				times *= 24;
-			else if (curplayer->discard.type == BombSeven)//Õ¨µ¯7
+			else if (curplayer->discard.type == BombSeven)//ç‚¸å¼¹7
 				times *= 120;
-			else if (curplayer->discard.type == BombEight)//Õ¨µ¯8
+			else if (curplayer->discard.type == BombEight)//ç‚¸å¼¹8
 				times *= 720;
-			else if (curplayer->discard.type == BombFour)//Õ¨µ¯king
+			else if (curplayer->discard.type == BombFour)//ç‚¸å¼¹king
 				times *= 100;
 		}
 	}
 	scene->ShowScene(hMainWnd);
-	if (currentplayer->cards.empty())//µ±Ç°³öÅÆ·½ÒÑÎŞÊÖÅÆ
+	if (currentplayer->cards.empty())//å½“å‰å‡ºç‰Œæ–¹å·²æ— æ‰‹ç‰Œ
 	{
         if (status<5)
-	        status = EndingPeriod_doudizhu;//doudizhuÓÎÏ·½áÊø
+	        status = EndingPeriod_doudizhu;//doudizhuæ¸¸æˆç»“æŸ
 	    if(status>=5)
-	        status = EndingPeriod_gandengyan;//gandengyanÓÎÏ·½áÊø
+	        status = EndingPeriod_gandengyan;//gandengyanæ¸¸æˆç»“æŸ
     }
 	else
-		currentplayer = player[GetnextPlayernum()];//ÏÂ¼Ò¼ÌĞø³öÅÆ
+		currentplayer = player[GetnextPlayernum()];//ä¸‹å®¶ç»§ç»­å‡ºç‰Œ
 	SetTimer(hMainWnd, 1, 500, NULL);
 }
 
@@ -239,7 +239,7 @@ void Game::pass()
 void Game::givinghint()
 {
 	currentplayer->selection.Clear();
-	currentplayer->AISelect(); ////////²»ÖªµÀ²ÎÊıÊÇÊ²Ã´
+	currentplayer->AISelect(); ////////ä¸çŸ¥é“å‚æ•°æ˜¯ä»€ä¹ˆ
 	if (currentplayer->selection.count != 0)
 		PostMessage(scene->discand, WM_MYBUTTON, TRUE, 0);
 	InvalidateRect(hMainWnd, NULL, FALSE);
@@ -248,7 +248,7 @@ void Game::givinghint()
 void Game::Gameover()
 {
 	if (status = 4)
-	{   int flag = -1; //ÅĞ¶ÏÊÇ²»ÊÇµØÖ÷»ñÊ¤
+	{   int flag = -1; //åˆ¤æ–­æ˜¯ä¸æ˜¯åœ°ä¸»è·èƒœ
 		if (DiZhu == currentplayer)
 		{   flag = 1;
 			for (int i = 0; i < 3; i++)
@@ -264,8 +264,8 @@ void Game::Gameover()
 				else
 					score[i] += times;			}	}
 		scene->ShowScene(hMainWnd);
-		if (flag==1)	MessageBox(hMainWnd, TEXT("¹§Ï²£¬µØÖ÷»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0);
-		else	MessageBox(hMainWnd, TEXT("¹§Ï²£¬Å©Ãñ»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0);
+		if (flag==1)	MessageBox(hMainWnd, TEXT("æ­å–œï¼Œåœ°ä¸»è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0);
+		else	MessageBox(hMainWnd, TEXT("æ­å–œï¼Œå†œæ°‘è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0);
 		GameStart();	}
 	else
 	{   int j;
@@ -277,10 +277,10 @@ void Game::Gameover()
 						score[i] -= times;				}
 		scene->ShowScene(hMainWnd);
 		switch (j)
-		{case 0:MessageBox(hMainWnd, TEXT("¹§Ï²,Íæ¼Ò0»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0); break;
-		case 1:MessageBox(hMainWnd, TEXT("¹§Ï²,Íæ¼Ò1»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0); break;
-		case 2:MessageBox(hMainWnd, TEXT("¹§Ï²,Íæ¼Ò2»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0); break;
-		case 3:MessageBox(hMainWnd, TEXT("¹§Ï²,Íæ¼Ò3»ñÊ¤£¡"), TEXT("ÓÎÏ·½áÊø"), 0); break;}			
+		{case 0:MessageBox(hMainWnd, TEXT("æ­å–œ,ç©å®¶0è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0); break;
+		case 1:MessageBox(hMainWnd, TEXT("æ­å–œ,ç©å®¶1è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0); break;
+		case 2:MessageBox(hMainWnd, TEXT("æ­å–œ,ç©å®¶2è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0); break;
+		case 3:MessageBox(hMainWnd, TEXT("æ­å–œ,ç©å®¶3è·èƒœï¼"), TEXT("æ¸¸æˆç»“æŸ"), 0); break;}			
 		GameStart();}
 }
 
@@ -290,9 +290,9 @@ void Game::SendDiZhuCard()
 	{
 		DiZhu->AddCard(DiZhuCard[i]);
 	}
-	scene->DrawBackground();//²úÉúÁËµØÖ÷£¬½«µØÖ÷ÅÆÕıÃæÏÔÊ¾
+	scene->DrawBackground();//äº§ç”Ÿäº†åœ°ä¸»ï¼Œå°†åœ°ä¸»ç‰Œæ­£é¢æ˜¾ç¤º
 	scene->ShowScene(hMainWnd);
-	status = DiscardPeriod_doudizhu;//µ±Ç°×´Ì¬Îª³öÅÆ½×¶Î
+	status = DiscardPeriod_doudizhu;//å½“å‰çŠ¶æ€ä¸ºå‡ºç‰Œé˜¶æ®µ
 	currentplayer = DiZhu;
 	lastplayer = DiZhu;
 	SetTimer(hMainWnd, 1, 500, NULL);
@@ -300,7 +300,7 @@ void Game::SendDiZhuCard()
 
 void Game::AskforDiZhu()
 {
-	if (!calltimes) //³õÊ¼»¯
+	if (!calltimes) //åˆå§‹åŒ–
 	{
 		default_random_engine   e;
 		e.seed(time(NULL));
@@ -309,7 +309,7 @@ void Game::AskforDiZhu()
 		status = AskDiZhuPeriod_doudizhu;
 	}
 
-	if (!DiZhu&&4==calltimes) //ÅĞ¶ÏÊÇ·ñĞèÒªÖØĞÂ·¢ÅÆ£¬Èç¹ûÃ»ÈË½ĞµØÖ÷µÄ»°
+	if (!DiZhu&&4==calltimes) //åˆ¤æ–­æ˜¯å¦éœ€è¦é‡æ–°å‘ç‰Œï¼Œå¦‚æœæ²¡äººå«åœ°ä¸»çš„è¯
 	{
 		status = SendCardPeriod_doudizhu;
 		SetTimer(hMainWnd, 1, 500, NULL);
@@ -317,10 +317,10 @@ void Game::AskforDiZhu()
 		return;
 	}
 
-	if (GetcurrentPlayernum()>=(4-robotnumber)) //ÒâË¼¾ÍÊÇÅĞ¶ÏÕâ¸öÊÇ²»ÊÇÈË£¬ÕâÀïÒâË¼ÊÇÈç¹û²»ÊÇÈËµÄ»°¾Íµ÷ÓÃ×Ô¶¯½ĞµØÖ÷µÄº¯Êı
+	if (GetcurrentPlayernum()>=(4-robotnumber)) //æ„æ€å°±æ˜¯åˆ¤æ–­è¿™ä¸ªæ˜¯ä¸æ˜¯äººï¼Œè¿™é‡Œæ„æ€æ˜¯å¦‚æœä¸æ˜¯äººçš„è¯å°±è°ƒç”¨è‡ªåŠ¨å«åœ°ä¸»çš„å‡½æ•°
 	{  
 		calltimes++;
-		if (currentplayer->AICall()) //ÅĞ¶ÏÊÇ·ñ½ĞµØÖ÷µÄº¯Êı
+		if (currentplayer->AICall()) //åˆ¤æ–­æ˜¯å¦å«åœ°ä¸»çš„å‡½æ•°
 		{ 
 			DiZhu = currentplayer;
 			status = SendDiZhuCardPeriod_doudizhu;
@@ -331,7 +331,7 @@ void Game::AskforDiZhu()
 			currentplayer= player[GetnextPlayernum()];
 		}
 	}
-	else //ÊÇÈËµÄ»°
+	else //æ˜¯äººçš„è¯
 	{
 		scene->ShowQuestionBtn();
 		return;
