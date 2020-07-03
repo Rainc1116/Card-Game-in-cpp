@@ -35,7 +35,7 @@ Game::Game(HWND hwnd, int gamemode，int robotnum)
 	else
 	{
 		status = SendCardPeriod_gandengyan;
-		//一副牌
+		//两副牌
 	}
 	for (int i = 0; i < 4; i++) {
 		callscore[i] = 0;
