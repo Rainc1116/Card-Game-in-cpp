@@ -1,16 +1,16 @@
 /**************************************************************\
-Ä£¿é£º
-	ÀàCardGroup -> ¶·µØÖ÷.exe
-ÎÄ¼ş£º
+æ¨¡å—ï¼š
+	ç±»CardGroup -> æ–—åœ°ä¸».exe
+æ–‡ä»¶ï¼š
 	cardgroup.cpp
-¹¦ÄÜ£º
-	´æ´¢·ûºÏ»ù±¾ÅÆµÄÒ»×éÅÆ£¬°üº¬Õâ×éÅÆµÄÀàĞÍ¡¢ÅÆÃæ¡¢ÊıÁ¿µÈ¡£
-×÷Õß£º
-	ËÎ±£Ã÷
-ĞŞ¸ÄÀúÊ·£º
-	ĞŞ¸ÄÈË	ĞŞ¸ÄÊ±¼ä	ĞŞ¸ÄÄÚÈİ
+åŠŸèƒ½ï¼š
+	å­˜å‚¨ç¬¦åˆåŸºæœ¬ç‰Œçš„ä¸€ç»„ç‰Œï¼ŒåŒ…å«è¿™ç»„ç‰Œçš„ç±»å‹ã€ç‰Œé¢ã€æ•°é‡ç­‰ã€‚
+ä½œè€…ï¼š
+	å®‹ä¿æ˜
+ä¿®æ”¹å†å²ï¼š
+	ä¿®æ”¹äºº	ä¿®æ”¹æ—¶é—´	ä¿®æ”¹å†…å®¹
 	-------	-----------	-------------------------------
-	ËÎ±£Ã÷	2014.12.5	´´½¨
+	å®‹ä¿æ˜	2014.12.5	åˆ›å»º
 \**************************************************************/
 
 #include <map>
@@ -19,8 +19,10 @@
 
 
 CardGroup::CardGroup()
-:type(Unkown)
+:type(Empty))
 ,value(0)
+,typevalue(0)
+ï¼Œtypecount(0)
 ,count(0)
 {
 
@@ -29,7 +31,19 @@ CardGroup::CardGroup()
 CardGroup::CardGroup(Type t,int v)
 : type(t)
 , value(v)
-, count(0)
+,typevalue(0)
+ï¼Œtypecount(0)
+,count(0)
+{
+
+}//ç›®æµ‹ä¸ä¼šç”¨åˆ°
+
+CardGroup::CardGroup(Type t)
+: type(t)
+,value(0)
+,typevalue(0)
+ï¼Œtypecount(0)
+,count(0)
 {
 
 }
@@ -41,9 +55,11 @@ CardGroup &CardGroup::operator=(CardGroup &cg)
 	this->type = cg.type;
 	this->value = cg.value;
 	this->count = cg.count;
+	this->typevalue = cg.typevalue;
+	this->typecount = cg.typecount;
 	return *this;
 }
-//ÖØÖÃÅÆĞÍ
+//é‡ç½®ç‰Œå‹
 void CardGroup::Clear(void)
 {
 	group.clear();
@@ -51,33 +67,299 @@ void CardGroup::Clear(void)
 	type = Unkown;
 	value = 0;
 	count = 0;
+	typevalue = 0;
+	typecount = 0;
 	return;
 }
-//Ìí¼Ó0-53±íÊ¾µÄÅÆ
+//æ·»åŠ 0-53è¡¨ç¤ºçš„ç‰Œ
 void CardGroup::AddNumber(int num)
 {
 	++count;
 	cards.insert(num);
 	++group[Translate(num)];
+	if (group[Translate(num)] == 1)
+	{
+		typecount++;
+	}
+	
 }
-//È¥µôÒ»ÕÅÅÆ
+//å»æ‰ä¸€å¼ ç‰Œ
 void CardGroup::DeleteNumber(int num)
 {
-	if (cards.find(num) == cards.end())//È·¶¨ÒªÈ¥µôµÄÅÆÔÚ½á¹¹ÄÚ
+	if (cards.find(num) == cards.end())//ç¡®å®šè¦å»æ‰çš„ç‰Œåœ¨ç»“æ„å†…
 		return;
 	--count;
 	cards.erase(num);
 	if (--group[Translate(num)] == 0)
+	{
 		group.erase(Translate(num));
+		typecount--;
+	}
 }
-//°Ñ0-53×ª»»³É3-17È¨Öµ£¬ÆäÖĞA£¨14£©¡¢2£¨15£©¡¢Ğ¡Íõ£¨16£©¡¢´óÍõ£¨17£©
+
+void CardGroup::Analyse()
+{
+	int i, j, k;
+	if (count == 0)
+	{
+		type = Empty;
+		return;
+	}
+	else if (count == 1)
+	{
+		type = Single;
+		typevalue = 1;
+		value = Translate(*(cards.begin()));
+		return;
+	}
+	else if (count == 2)
+	{
+		if (group[Translate(*(cards.begin()))] == 2)
+		{
+			type = Double;
+			typevalue = 1;
+			value = Translate(*(cards.begin()));
+			return;
+		}
+		else
+		{
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+	}
+	else if (count == 3)
+	{
+		if (group[Translate(*(cards.begin()))] == 3)
+		{
+			type = Three;
+			typevalue = 1;
+			value = Translate(*(cards.begin()));
+			return;
+		}
+		else
+		{
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+	}
+	else if (count == 4)
+	{
+		if (group[Translate(*(cards.begin()))] == 4)
+		{
+			type = BombFour;
+			typevalue = 2;
+			value = Translate(*(cards.begin()));
+			return;
+		}
+		else if (group[16] == 2 && group[17] == 2)
+		{
+			type = BombKing;
+			typevalue = 7;
+			value = 17;
+			return;
+		}
+		else
+		{
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+	}
+	else
+	{
+		if (typecount == 1)
+		{
+			switch (count)
+			{
+			case 5:
+				type = BombFive;
+				typevalue = 3;
+				value = Translate(*(cards.begin()));
+				return;
+				break;
+			case 6:
+				type = BombSix;
+				typevalue = 4;
+				value = Translate(*(cards.begin()));
+				return;
+				break;
+			case 7:
+				type = BombSeven;
+				typevalue = 5;
+				value = Translate(*(cards.begin()));
+				return;
+				break;
+			case 8:
+				type = BombEight;
+				typevalue = 6;
+				value = Translate(*(cards.begin()));
+				return;
+				break;
+			}
+		}
+		else if (typecount == count)//å¯èƒ½æ˜¯å•é¡º
+		{
+			for (i = 3; i < 16 - typecount; i++)
+			{
+				if (group[i] == 1)
+				{
+					for (j = 0; j < typecount; j++)
+					{
+						if (group[i + j] == 0)
+						{
+							type = Unkown;
+							typevalue = 0;
+							value = 0;
+							return;
+						}
+					}
+					type = SingleSeq;
+					typevalue = 1;
+					value = i;
+					return;
+				}
+				
+			}
+			
+		}
+		else if (count == 5 && typecount == 2) //ä¸‰å¸¦ä¸€å¯¹
+		{
+			for (i = 3; i < 16; i++)
+			{
+				if (group[i] == 3)
+				{
+					type = ThreePlus;
+					typevalue = 1;
+					value = i;
+					return;
+				}
+			}
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+		else if (count == 2 * typecount)//åŒé¡º
+		{
+			for (i = 3; i < 16 - typecount; i++)
+			{
+				if (group[i] == 2)
+				{
+					for (j = 0; j < typecount; j++)
+					{
+						if (group[i + j] != 2)
+						{
+							type = Unkown;
+							typevalue = 0;
+							value = 0;
+							return;
+						}
+					}
+					type = DoubleSeq;
+					typevalue = 1;
+					value = i;
+					return;
+				}
+			}
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+		else if (count == 3 * typecount)//ä¸‰é¡º
+		{
+			for (i = 3; i < 16 - typecount; i++)
+			{
+				if (group[i] == 3)
+				{
+					for (j = 0; j < typecount; j++)
+					{
+						if (group[i + j] != 3)
+						{
+							type = Unkown;
+							typevalue = 0;
+							value = 0;
+							return;
+						}
+					}
+					type = ThreeSeq;
+					typevalue = 1;
+					value = i;
+					return;
+				}
+			}
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+		else if (count >= 10 && count % 5 == 0 && count/5*2 == typecount)//é£æœºå¸¦ç¿…è†€
+		{
+			for (i = 3; i < 16 - typecount/2; i++)
+			{
+				if (group[i] == 3)
+				{
+					for (j = 0; j < typecount/2; j++)
+					{
+						if (group[i + j] != 3)
+						{
+							type = Unkown;
+							typevalue = 0;
+							value = 0;
+							return;
+						}
+					}
+					for (j = 3; j < 16 - typecount/2; j++)
+					{
+						if (group[j] == 2)
+						{
+							for (k = 0; k < typecount/2; k++)
+							{
+								if (group[j + k] != 2)
+								{
+									type = Unkown;
+									typevalue = 0;
+									value = 0;
+									return;
+								}
+							}
+							type = Airplane;
+							typevalue = 1;
+							value = i;
+							return;
+						}
+					}
+				}
+			}
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+		else
+		{
+			type = Unkown;
+			typevalue = 0;
+			value = 0;
+			return;
+		}
+		
+	}	
+}
+
+//æŠŠ0-53è½¬æ¢æˆ3-17æƒå€¼ï¼Œå…¶ä¸­Aï¼ˆ14ï¼‰ã€2ï¼ˆ15ï¼‰ã€å°ç‹ï¼ˆ16ï¼‰ã€å¤§ç‹ï¼ˆ17ï¼‰
 int CardGroup::Translate(int num)
 {
-	//ÆË¿ËÅÆ°´ÕÕ3(8¸ö)-4(8¸ö)-5-6----J-K
-	if (num < 104)
-		return num / 8 + 3;
-	else if (num == 104 || num == 105)
-		return 16;
+	if (num > 53)
+		num = num-54;
+	
+	if (num < 52)
+		return num / 4 + 3;
 	else
-		return 17;
+		return num - 36;
 }
