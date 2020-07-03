@@ -761,4 +761,23 @@ void Player::AddByValue(CardGroup *cardgroup, int value, int count)
 	return;
 }
 
-
+bool Player::AICall()
+{
+	int sum;
+	CardGroup temp;
+	for (auto num:selection.cards){
+		temp.AddNumber(num);
+	}
+	for (int i = 0; i < 18; i++)
+	{
+		sum = sum + temp.group[i];
+	}
+	if (sum > CALLLORDVALUE)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
